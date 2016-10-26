@@ -79,13 +79,14 @@ def usage(exitstatus=255):
 
 class CrashMail:
 
-    def __init__(self, programs, any, email, sendmail, optionalheader):
+    def __init__(self, programs, sendmail, mailsvr):
 
         self.programs = programs
-        self.any = any
-        self.email = email
+        # self.any = any
+        # self.email = email
         self.sendmail = sendmail
-        self.optionalheader = optionalheader
+        # self.optionalheader = optionalheader
+        self.mailsvr = mailsvr
         self.stdin = sys.stdin
         self.stdout = sys.stdout
         self.stderr = sys.stderr
@@ -122,23 +123,22 @@ class CrashMail:
 
             subject = ' %s crashed at %s' % (pheaders['processname'],
                                              childutils.get_asctime())
-            if self.optionalheader:
-                subject = self.optionalheader + ':' + subject
+            # if self.optionalheader:
+            #     subject = self.optionalheader + ':' + subject
 
             self.stderr.write('unexpected exit, mailing\n')
             self.stderr.flush()
 
-            self.mail(self.email, subject, msg)
+            self.mail(self.email, msg)
 
             childutils.listener.ok(self.stdout)
             if test:
                 break
 
-    def mail(self, email, subject, msg):
-        body = 'To: %s\n' % self.email
-        body += 'Subject: %s\n' % subject
-        body += '\n'
-        body += msg
+    def mail(self, msg):
+        body = msg
+
+        # pass string to command
         with os.popen(self.sendmail, 'w') as m:
             m.write(body)
         self.stderr.write('Mailed:\n\n%s' % body)
@@ -146,15 +146,15 @@ class CrashMail:
 
 
 def main(argv=sys.argv):
-    short_args = "hp:ao:s:m:"
+    short_args = "S:r:s:m:"
     long_args = [
+        "smtp=",
         "help",
-        "program=",
-        "any",
-        "optionalheader=",
-        "sendmail_program=",
-        "email=",
-        ]
+        "from=",
+        "subject=",
+        "mail="
+    ]
+
     arguments = argv[1:]
     try:
         opts, args = getopt.getopt(arguments, short_args, long_args)
@@ -162,30 +162,27 @@ def main(argv=sys.argv):
         usage()
 
     programs = []
-    any = False
-    sendmail = '/usr/sbin/sendmail -t -i'
-    email = None
-    optionalheader = None
+    sendmail = '/usr/bin/mailx'
+    mailsvr = None
+
 
     for option, value in opts:
-
         if option in ('-h', '--help'):
             usage(exitstatus=0)
 
-        if option in ('-p', '--program'):
+        if option in ('-S', '--smtp'):
+            programs.append('-S ' + value)
+
+        if option in ('-f', '--from'):
+            programs.append('-r ' + value)
+
+        if option in ('-s', '--subject'):
+            programs.append('-s ' + value)
+
+         # target mail address
+        if option in ('-m', '--email'):
             programs.append(value)
 
-        if option in ('-a', '--any'):
-            any = True
-
-        if option in ('-s', '--sendmail_program'):
-            sendmail = value
-
-        if option in ('-m', '--email'):
-            email = value
-
-        if option in ('-o', '--optionalheader'):
-            optionalheader = value
 
     if not 'SUPERVISOR_SERVER_URL' in os.environ:
         sys.stderr.write('crashmail must be run as a supervisor event '
@@ -193,7 +190,7 @@ def main(argv=sys.argv):
         sys.stderr.flush()
         return
 
-    prog = CrashMail(programs, any, email, sendmail, optionalheader)
+    prog = CrashMail(programs, sendmail, mailsvr)
     prog.runforever()
 
 
