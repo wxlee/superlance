@@ -171,17 +171,17 @@ def main(argv=sys.argv):
             usage(exitstatus=0)
 
         if option in ('-S', '--smtp'):
-            programs.append('-S ' + value)
+            programs.append(r'-S ' + r'\"' + value + r'\"')
 
         if option in ('-f', '--from'):
-            programs.append('-r ' + value)
+            programs.append('-r ' + r'\"' + value + r'\"')
 
         if option in ('-s', '--subject'):
-            programs.append('-s ' + value)
+            programs.append('-s ' + r'\"' + value + r'\"')
 
          # target mail address
         if option in ('-m', '--email'):
-            programs.append(value)
+            programs.append(r' \"' + value + r'\"')
 
 
     if not 'SUPERVISOR_SERVER_URL' in os.environ:
