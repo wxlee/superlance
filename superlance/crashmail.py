@@ -146,7 +146,7 @@ class CrashMail:
 
 
 def main(argv=sys.argv):
-    short_args = "S:r:s:m:"
+    short_args = "S:hf:s:m:"
     long_args = [
         "smtp=",
         "help",
