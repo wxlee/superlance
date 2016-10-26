@@ -162,7 +162,7 @@ def main(argv=sys.argv):
         usage()
 
     programs = []
-    sendmail = '/usr/bin/mailx'
+    sendmail = '/usr/bin/mailx '
     mailsvr = None
 
 
@@ -184,13 +184,15 @@ def main(argv=sys.argv):
             programs.append(value)
 
 
+    sendmail = sendmail + ''.join(programs)
+
     if not 'SUPERVISOR_SERVER_URL' in os.environ:
         sys.stderr.write('crashmail must be run as a supervisor event '
                          'listener\n')
         sys.stderr.flush()
         return
 
-    prog = CrashMail(programs, sendmail=sendmail+''.join(programs), mailsvr)
+    prog = CrashMail(programs, sendmail, mailsvr)
     prog.runforever()
 
 
