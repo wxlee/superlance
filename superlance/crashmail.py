@@ -121,8 +121,8 @@ class CrashMail:
                    'unexpectedly (pid %(pid)s) from state %(from_state)s' %
                    pheaders)
 
-            subject = ' %s crashed at %s' % (pheaders['processname'],
-                                             childutils.get_asctime())
+            # subject = ' %s crashed at %s' % (pheaders['processname'],
+            #                                  childutils.get_asctime())
             # if self.optionalheader:
             #     subject = self.optionalheader + ':' + subject
 
