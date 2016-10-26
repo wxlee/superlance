@@ -171,17 +171,17 @@ def main(argv=sys.argv):
             usage(exitstatus=0)
 
         if option in ('-S', '--smtp'):
-            programs.append(r'-S ' + r'\"' + value + r'\"')
+            programs.append(r'-S ' + value)
 
         if option in ('-f', '--from'):
-            programs.append('-r ' + r'\"' + value + r'\"')
+            programs.append('-r ' + value)
 
         if option in ('-s', '--subject'):
-            programs.append('-s ' + r'\"' + value + r'\"')
+            programs.append('-s ' + value)
 
          # target mail address
         if option in ('-m', '--email'):
-            programs.append(r' \"' + value + r'\"')
+            programs.append(value)
 
 
     if not 'SUPERVISOR_SERVER_URL' in os.environ:
@@ -190,7 +190,7 @@ def main(argv=sys.argv):
         sys.stderr.flush()
         return
 
-    prog = CrashMail(programs, sendmail, mailsvr)
+    prog = CrashMail(programs, sendmail=sendmail+''.join(programs), mailsvr)
     prog.runforever()
 
 
