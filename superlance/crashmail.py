@@ -171,21 +171,21 @@ def main(argv=sys.argv):
             usage(exitstatus=0)
 
         if option in ('-S', '--smtp'):
-            programs.append(r'-S ' + value)
+            programs.append(' -S ' + value)
 
         if option in ('-f', '--from'):
-            programs.append('-r ' + value)
+            programs.append(' -r ' + value)
 
         if option in ('-s', '--subject'):
-            programs.append('-s ' + value)
+            programs.append(' -s ' + value)
 
          # target mail address
         if option in ('-m', '--email'):
-            programs.append(value)
+            programs.append(' ' + value)
 
 
     sendmail = sendmail + ''.join(programs)
-    print sendmail
+    # print sendmail
 
     if not 'SUPERVISOR_SERVER_URL' in os.environ:
         sys.stderr.write('crashmail must be run as a supervisor event '
