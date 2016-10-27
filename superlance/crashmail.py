@@ -30,21 +30,16 @@
 # Sendmail is used explicitly here so that we can specify the 'from' address.
 
 doc = """\
-crashmail.py [-f sent_from] [-m sent_to] [-h help] [-S set_smtp_server]
-             [-s subject]
+crashmail.py [-f sent_from] [-m sent_to] [-h help] 
+             [-S set_smtp_server] [-s subject]
 
 Options:
-
 -f -- set the mail from address 
-
 -S -- set smtp server
-
 -s -- set mail subject
-
 -m -- set target mail address
 
 A sample invocation:
-
 crashmail -f "crash@xxx.com" -s "NodeCrash" -S smtp=x.x.x.x:25 -m target@xxx.com
 
 """
@@ -52,7 +47,6 @@ crashmail -f "crash@xxx.com" -s "NodeCrash" -S smtp=x.x.x.x:25 -m target@xxx.com
 import getopt
 import os
 import sys
-import subprocess
 
 from supervisor import childutils
 
@@ -98,10 +92,9 @@ class CrashMail:
                     break
                 continue
 
-            msg = ('Process %(processname)s in group %(groupname)s exited '
+            msg = ('Process %(processname)s exited '
                    'unexpectedly (pid %(pid)s) from state %(from_state)s' %
                    pheaders)
-
 
             self.stderr.write('unexpected exit, mailing\n')
             self.stderr.flush()
