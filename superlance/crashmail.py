@@ -68,6 +68,7 @@ crashmail.py -p program1 -p group1:program2 -m dev@example.com
 import getopt
 import os
 import sys
+import subprocess
 
 from supervisor import childutils
 
@@ -129,7 +130,8 @@ class CrashMail:
             self.stderr.write('unexpected exit, mailing\n')
             self.stderr.flush()
 
-            self.mail(self.email, msg)
+            # self.mail(self.email, msg)
+            self.mail(msg)
 
             childutils.listener.ok(self.stdout)
             if test:
@@ -142,7 +144,7 @@ class CrashMail:
         with os.popen(self.sendmail, 'w') as m:
             m.write(body)
         self.stderr.write('Mailed:\n\n%s' % body)
-        self.mailed = body
+        # self.mailed = body
 
 
 def main(argv=sys.argv):
