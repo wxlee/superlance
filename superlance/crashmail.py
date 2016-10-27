@@ -30,38 +30,20 @@
 # Sendmail is used explicitly here so that we can specify the 'from' address.
 
 doc = """\
-crashmail.py [-p processname] [-a] [-o string] [-m mail_address]
-             [-s sendmail] URL
+crashmail.py [-f sent_from] [-m sent_to] [-h help] [-S set_smtp_server]
+             [-s subject]
 
 Options:
 
--p -- specify a supervisor process_name.  Send mail when this process
-      transitions to the EXITED state unexpectedly. If this process is
-      part of a group, it can be specified using the
-      'group_name:process_name' syntax.
+-f -- set the mail from address 
 
--a -- Send mail when any child of the supervisord transitions
-      unexpectedly to the EXITED state unexpectedly.  Overrides any -p
-      parameters passed in the same crashmail process invocation.
+-s -- set smtp server
 
--o -- Specify a parameter used as a prefix in the mail subject header.
-
--s -- the sendmail command to use to send email
-      (e.g. "/usr/sbin/sendmail -t -i").  Must be a command which accepts
-      header and message data on stdin and sends mail.  Default is
-      "/usr/sbin/sendmail -t -i".
-
--m -- specify an email address.  The script will send mail to this
-      address when crashmail detects a process crash.  If no email
-      address is specified, email will not be sent.
-
-The -p option may be specified more than once, allowing for
-specification of multiple processes.  Specifying -a overrides any
-selection of -p.
+-m -- set target mail address
 
 A sample invocation:
 
-crashmail.py -p program1 -p group1:program2 -m dev@example.com
+crashmail -f "crash@xxx.com" -s "NodeCrash" -S smtp=x.x.x.x:25 -m target@xxx.com
 
 """
 
