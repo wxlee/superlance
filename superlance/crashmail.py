@@ -185,6 +185,7 @@ def main(argv=sys.argv):
 
 
     sendmail = sendmail + ''.join(programs)
+    print sendmail
 
     if not 'SUPERVISOR_SERVER_URL' in os.environ:
         sys.stderr.write('crashmail must be run as a supervisor event '
