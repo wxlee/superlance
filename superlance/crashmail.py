@@ -106,15 +106,9 @@ class CrashMail:
                    'unexpectedly (pid %(pid)s) from state %(from_state)s' %
                    pheaders)
 
-            # subject = ' %s crashed at %s' % (pheaders['processname'],
-            #                                  childutils.get_asctime())
-            # if self.optionalheader:
-            #     subject = self.optionalheader + ':' + subject
 
             self.stderr.write('unexpected exit, mailing\n')
             self.stderr.flush()
-
-            # self.mail(self.email, msg)
             self.mail(msg)
 
             childutils.listener.ok(self.stdout)
@@ -128,7 +122,6 @@ class CrashMail:
         with os.popen(self.sendmail, 'w') as m:
             m.write(body)
         self.stderr.write('Mailed:\n\n%s' % body)
-        # self.mailed = body
 
 
 def main(argv=sys.argv):
@@ -171,7 +164,6 @@ def main(argv=sys.argv):
 
 
     sendmail = sendmail + ''.join(programs)
-    # print sendmail
 
     if not 'SUPERVISOR_SERVER_URL' in os.environ:
         sys.stderr.write('crashmail must be run as a supervisor event '
