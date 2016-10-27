@@ -64,9 +64,9 @@ def usage(exitstatus=255):
 
 class CrashMail:
 
-    def __init__(self, programs, sendmail):
+    def __init__(self, sendmail):
 
-        self.programs = programs
+        # self.programs = programs
         self.sendmail = sendmail
         self.stdin = sys.stdin
         self.stdout = sys.stdout
@@ -165,7 +165,7 @@ def main(argv=sys.argv):
         sys.stderr.flush()
         return
 
-    prog = CrashMail(programs, sendmail)
+    prog = CrashMail(sendmail)
     prog.runforever()
 
 
