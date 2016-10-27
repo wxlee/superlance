@@ -37,7 +37,9 @@ Options:
 
 -f -- set the mail from address 
 
--s -- set smtp server
+-S -- set smtp server
+
+-s -- set mail subject
 
 -m -- set target mail address
 
