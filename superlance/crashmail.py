@@ -64,14 +64,10 @@ def usage(exitstatus=255):
 
 class CrashMail:
 
-    def __init__(self, programs, sendmail, mailsvr):
+    def __init__(self, programs, sendmail):
 
         self.programs = programs
-        # self.any = any
-        # self.email = email
         self.sendmail = sendmail
-        # self.optionalheader = optionalheader
-        self.mailsvr = mailsvr
         self.stdin = sys.stdin
         self.stdout = sys.stdout
         self.stderr = sys.stderr
@@ -142,8 +138,6 @@ def main(argv=sys.argv):
 
     programs = []
     sendmail = '/usr/bin/mailx '
-    mailsvr = None
-
 
     for option, value in opts:
         if option in ('-h', '--help'):
@@ -171,7 +165,7 @@ def main(argv=sys.argv):
         sys.stderr.flush()
         return
 
-    prog = CrashMail(programs, sendmail, mailsvr)
+    prog = CrashMail(programs, sendmail)
     prog.runforever()
 
 
