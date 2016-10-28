@@ -21,13 +21,9 @@
 # as a listener is below.
 #
 # [eventlistener:crashmail]
-# command =
-#     /usr/bin/crashmail
-#         -o hostname -a -m notify-on-crash@domain.com
-#         -s '/usr/sbin/sendmail -t -i -f crash-notifier@domain.com'
+# command = crashmail -f "crash@xxx.com" -s "NodeCrash" -S smtp=x.x.x.x:25 -m recv@xxx.com
 # events=PROCESS_STATE
 #
-# Sendmail is used explicitly here so that we can specify the 'from' address.
 
 doc = """\
 crashmail.py [-f sent_from] [-m sent_to] [-h help] 
