@@ -45,6 +45,7 @@ import os
 import sys
 
 from supervisor import childutils
+from datetime import datetime
 
 
 def usage(exitstatus=255):
@@ -91,6 +92,8 @@ class CrashMail:
             msg = ('Process %(processname)s exited '
                    'unexpectedly (pid %(pid)s) from state %(from_state)s' %
                    pheaders)
+
+            msg += " on %s" % str(datetime.now())
 
             self.stderr.write('unexpected exit, mailing\n')
             self.stderr.flush()
